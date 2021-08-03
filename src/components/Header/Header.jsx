@@ -10,7 +10,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Switch from '@material-ui/core/Switch';
 
@@ -78,10 +77,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header({ handleFormSubmit }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const [videoname, setVideoname] = React.useState('');
+  const handleOnChange = (event) => {
+    setVideoname(event.target.value);
+  };
+  function handleSubmit(event) {
+    event.preventDefault();
+    handleFormSubmit(videoname);
+  }
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -114,7 +122,7 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>      
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
     </Menu>
   );
 
@@ -128,7 +136,7 @@ export default function Header() {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-    >         
+    >
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -145,7 +153,7 @@ export default function Header() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" color="transparent">
         <Toolbar>
           <IconButton
             edge="start"
@@ -154,29 +162,32 @@ export default function Header() {
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>          
+          </IconButton>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
-              placeholder="wizeline"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <form onSubmit={handleSubmit}>
+              <InputBase
+                placeholder="search video"
+                classes={{
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={handleOnChange}
+                color="secondary"
+              />
+            </form>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            
-            <IconButton aria-label="show 17 new notifications" color="inherit">              
-            <Switch name="checkedA"inputProps={{ 'aria-label': 'secondary checkbox' }}/>             
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+              <Switch
+                name="checkedA"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
             </IconButton>
-            <Typography>
-              Dark Mode
-            </Typography>            
+            <Typography>Dark Mode</Typography>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -197,6 +208,12 @@ export default function Header() {
               color="inherit"
             >
               <MoreIcon />
+            </IconButton>
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+              <Switch
+                name="checkedA"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
             </IconButton>
           </div>
         </Toolbar>

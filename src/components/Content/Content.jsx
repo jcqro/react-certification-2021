@@ -1,16 +1,17 @@
 import React from 'react';
-import { items } from "../../mock/list.json";
+import VideoItem from '../VideoItem';
 
-export default function Content() {    
-    return (
-        <div>
-            {items            
-            .map((item, index) => (              
-                <section key={index}>
-                    {item.snippet.title} 
-                    <img src={item.snippet.thumbnails.default.url} alt={item.snippet.description}></img>
-                </section>                           
-            ))}
-        </div>        
-    );
+export default function Content(props) {
+  const { videos, handleVideoSelect } = props;
+  return (
+    <div>
+      {videos.map((video) => (
+        <VideoItem
+          key={video.id.videoId}
+          video={video}
+          handleVideoSelect={handleVideoSelect}
+        />
+      ))}
+    </div>
+  );
 }
