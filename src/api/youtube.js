@@ -7,6 +7,7 @@ export default axios.create({
   params: {
     part: 'snippet',
     maxResults: 5,
+    // key: 'AIzaSyCWN8A7FFegTnOTGfqnpIk8LvE5q18_0Lw',
     key: KEY,
   },
 });
