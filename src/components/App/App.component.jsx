@@ -1,5 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { CssBaseline } from '@material-ui/core';
 import Header from '../Header';
 import Content from '../Content';
 import youtube from '../../api/youtube';
@@ -11,10 +13,13 @@ function App() {
   const [videos, setVideos] = React.useState([]);
   const [relatedVideos, setRelatedVideos] = React.useState([]);
   const [selectedVideo, setSelectedVideo] = React.useState(null);
-  const handleVideoSelect = (video) => {
-    setSelectedVideo(video);
-  };
+  const [darkMode, setDarkMode] = React.useState(false);
 
+  const theme = createTheme({
+    palette: {
+      type: darkMode ? 'dark' : 'light',
+    },
+  });
   React.useEffect(() => {
     async function getRelatedVideos() {
       const response = await youtube.get('search', {
@@ -51,19 +56,28 @@ function App() {
         setTermToSearch,
         videos,
         setVideos,
+        selectedVideo,
+        setSelectedVideo,
+        relatedVideos,
+        setRelatedVideos,
+        darkMode,
+        setDarkMode,
       }}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Header />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Header />
+          </Grid>
+          <Grid item xs={12} sm={9}>
+            <VideoDetail />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Content />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={9}>
-          <VideoDetail video={selectedVideo} relatedVideos={relatedVideos} />
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <Content handleVideoSelect={handleVideoSelect} />
-        </Grid>
-      </Grid>
+      </ThemeProvider>
     </DataContext.Provider>
   );
 }

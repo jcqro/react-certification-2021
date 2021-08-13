@@ -1,8 +1,9 @@
 import React from 'react';
+import DataContext from '../../context/DataContext';
 
-export default function VideoDetail(props) {
-  const { video, relatedVideos } = props;
-  if (!video) {
+export default function VideoDetail() {
+  const { selectedVideo, relatedVideos } = React.useContext(DataContext);
+  if (!selectedVideo) {
     return (
       <div>
         <h3>Enter search keyword in the toolbar and hit enter...</h3>
@@ -10,7 +11,7 @@ export default function VideoDetail(props) {
     );
   }
 
-  const videoSrc = `https://www.youtube.com/embed/${video.id.videoId}`;
+  const videoSrc = `https://www.youtube.com/embed/${selectedVideo.id.videoId}`;
 
   return (
     <div>
@@ -24,8 +25,8 @@ export default function VideoDetail(props) {
         />
       </div>
       <div>
-        <h4>{video.snippet.title}</h4>
-        <p>{video.snippet.description}</p>
+        <h4>{selectedVideo.snippet.title}</h4>
+        <p>{selectedVideo.snippet.description}</p>
       </div>
       <div>
         <h4>Related Videos</h4>
