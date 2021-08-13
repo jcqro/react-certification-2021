@@ -4,19 +4,13 @@ import Header from '../Header';
 import Content from '../Content';
 import youtube from '../../api/youtube';
 import VideoDetail from '../VideoDetail';
+import DataContext from '../../context/DataContext';
 
 function App() {
+  const [termToSearch, setTermToSearch] = React.useState();
   const [videos, setVideos] = React.useState([]);
   const [relatedVideos, setRelatedVideos] = React.useState([]);
   const [selectedVideo, setSelectedVideo] = React.useState(null);
-  const handleSubmit = async (termFromHeaderSearch) => {
-    const response = await youtube.get('search', {
-      params: {
-        q: termFromHeaderSearch,
-      },
-    });
-    setVideos(response.data.items);
-  };
   const handleVideoSelect = (video) => {
     setSelectedVideo(video);
   };
@@ -31,25 +25,46 @@ function App() {
       });
       setRelatedVideos(response.data.items);
     }
+
     if (selectedVideo) {
       getRelatedVideos();
     }
-  }, [selectedVideo, setRelatedVideos]);
+
+    async function getVideos() {
+      const response = await youtube.get('search', {
+        params: {
+          q: termToSearch,
+        },
+      });
+      setVideos(response.data.items);
+    }
+
+    if (termToSearch) {
+      getVideos();
+    }
+  }, [termToSearch, selectedVideo, setRelatedVideos]);
 
   return (
-    <>
+    <DataContext.Provider
+      value={{
+        termToSearch,
+        setTermToSearch,
+        videos,
+        setVideos,
+      }}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Header handleFormSubmit={handleSubmit} />
+          <Header />
         </Grid>
         <Grid item xs={12} sm={9}>
           <VideoDetail video={selectedVideo} relatedVideos={relatedVideos} />
         </Grid>
         <Grid item xs={12} sm={3}>
-          <Content videos={videos} handleVideoSelect={handleVideoSelect} />
+          <Content handleVideoSelect={handleVideoSelect} />
         </Grid>
       </Grid>
-    </>
+    </DataContext.Provider>
   );
 }
 

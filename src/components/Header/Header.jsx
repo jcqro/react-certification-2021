@@ -12,6 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Switch from '@material-ui/core/Switch';
+import DataContext from '../../context/DataContext';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -77,18 +78,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ handleFormSubmit }) {
+export default function Header() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const [videoname, setVideoname] = React.useState('');
+  const { setTermToSearch } = React.useContext(DataContext);
+
   const handleOnChange = (event) => {
     setVideoname(event.target.value);
   };
   function handleSubmit(event) {
     event.preventDefault();
-    handleFormSubmit(videoname);
+    setTermToSearch(videoname);
   }
 
   const isMenuOpen = Boolean(anchorEl);
