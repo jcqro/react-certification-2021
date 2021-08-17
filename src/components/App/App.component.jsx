@@ -7,6 +7,13 @@ import Content from '../Content';
 import youtube from '../../api/youtube';
 import VideoDetail from '../VideoDetail';
 import DataContext from '../../context/DataContext';
+/* 
+function reducer(state, action) {
+  switch (action.type) {
+    default:
+      return state;
+  }
+} */
 
 function App() {
   const [termToSearch, setTermToSearch] = React.useState();
@@ -14,6 +21,8 @@ function App() {
   const [relatedVideos, setRelatedVideos] = React.useState([]);
   const [selectedVideo, setSelectedVideo] = React.useState(null);
   const [darkMode, setDarkMode] = React.useState(false);
+
+  // const [state, dispatch] = React.useReducer(reducer, { darkMode: false });
 
   const theme = createTheme({
     palette: {

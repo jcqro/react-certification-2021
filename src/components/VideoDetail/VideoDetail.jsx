@@ -1,12 +1,14 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import DataContext from '../../context/DataContext';
 
 export default function VideoDetail() {
-  const { selectedVideo, relatedVideos } = React.useContext(DataContext);
+  const { selectedVideo, setSelectedVideo, relatedVideos } =
+    React.useContext(DataContext);
   if (!selectedVideo) {
     return (
       <div>
-        <h3>Enter search keyword in the toolbar and hit enter...</h3>
+        <h3>Type search keyword in the toolbar and hit enter...</h3>
       </div>
     );
   }
@@ -32,7 +34,14 @@ export default function VideoDetail() {
         <h4>Related Videos</h4>
         {relatedVideos.length > 0 ? (
           relatedVideos.map((relatedVideo) => (
-            <div key={relatedVideo.id.videoId}>
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            <div
+              key={relatedVideo.id.videoId}
+              onClick={() => setSelectedVideo(relatedVideo)}
+              style={{ cursor: 'pointer' }}
+            >
               <img
                 src={relatedVideo.snippet?.thumbnails.default.url}
                 alt={relatedVideo.snippet?.description}

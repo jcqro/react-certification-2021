@@ -3,7 +3,6 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -12,6 +11,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import DataContext from '../../context/DataContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -184,15 +184,18 @@ export default function Header() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Switch
-                name="checkedA"
-                inputProps={{ 'aria-label': 'secondary checkbox' }}
-                checked={darkMode}
-                onChange={() => setDarkMode(!darkMode)}
-              />
-            </IconButton>
-            <Typography>Dark Mode</Typography>
+            <FormControlLabel
+              control={
+                <Switch
+                  name="checkedA"
+                  inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  checked={darkMode}
+                  onChange={() => setDarkMode(!darkMode)}
+                />
+              }
+              label="Dark Mode"
+            />
+
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -214,12 +217,17 @@ export default function Header() {
             >
               <MoreIcon />
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Switch
-                name="checkedA"
-                inputProps={{ 'aria-label': 'secondary checkbox' }}
-              />
-            </IconButton>
+            <FormControlLabel
+              control={
+                <Switch
+                  name="checkedA"
+                  inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  checked={darkMode}
+                  onChange={() => setDarkMode(!darkMode)}
+                />
+              }
+              label="Dark Mode"
+            />
           </div>
         </Toolbar>
       </AppBar>
