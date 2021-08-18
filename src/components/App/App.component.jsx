@@ -7,26 +7,30 @@ import Content from '../Content';
 import youtube from '../../api/youtube';
 import VideoDetail from '../VideoDetail';
 import DataContext from '../../context/DataContext';
-/* 
+
 function reducer(state, action) {
   switch (action.type) {
+    case 'TOGGLE_DARK_MODE':
+      return {
+        ...state,
+        darkMode: !state.darkMode,
+      };
     default:
       return state;
   }
-} */
+}
 
 function App() {
   const [termToSearch, setTermToSearch] = React.useState();
   const [videos, setVideos] = React.useState([]);
   const [relatedVideos, setRelatedVideos] = React.useState([]);
   const [selectedVideo, setSelectedVideo] = React.useState(null);
-  const [darkMode, setDarkMode] = React.useState(false);
 
-  // const [state, dispatch] = React.useReducer(reducer, { darkMode: false });
+  const [state, dispatch] = React.useReducer(reducer, { darkMode: true });
 
   const theme = createTheme({
     palette: {
-      type: darkMode ? 'dark' : 'light',
+      type: state.darkMode ? 'dark' : 'light',
     },
   });
   React.useEffect(() => {
@@ -69,8 +73,8 @@ function App() {
         setSelectedVideo,
         relatedVideos,
         setRelatedVideos,
-        darkMode,
-        setDarkMode,
+        state,
+        dispatch,
       }}
     >
       <ThemeProvider theme={theme}>

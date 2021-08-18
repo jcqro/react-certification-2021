@@ -84,7 +84,7 @@ export default function Header() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const [videoname, setVideoname] = React.useState('');
-  const { setTermToSearch, darkMode, setDarkMode } = React.useContext(DataContext);
+  const { setTermToSearch, state, dispatch } = React.useContext(DataContext);
 
   const handleOnChange = (event) => {
     setVideoname(event.target.value);
@@ -189,8 +189,8 @@ export default function Header() {
                 <Switch
                   name="checkedA"
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
-                  checked={darkMode}
-                  onChange={() => setDarkMode(!darkMode)}
+                  checked={state.darkMode}
+                  onChange={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
                 />
               }
               label="Dark Mode"
@@ -222,8 +222,8 @@ export default function Header() {
                 <Switch
                   name="checkedA"
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
-                  checked={darkMode}
-                  onChange={() => setDarkMode(!darkMode)}
+                  checked={state.darkMode}
+                  onChange={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
                 />
               }
               label="Dark Mode"
