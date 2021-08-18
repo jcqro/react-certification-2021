@@ -1,26 +1,38 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { CssBaseline } from '@material-ui/core';
 import Header from '../Header';
 import Content from '../Content';
 import youtube from '../../api/youtube';
 import VideoDetail from '../VideoDetail';
+import DataContext from '../../context/DataContext';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'TOGGLE_DARK_MODE':
+      return {
+        ...state,
+        darkMode: !state.darkMode,
+      };
+    default:
+      return state;
+  }
+}
 
 function App() {
+  const [termToSearch, setTermToSearch] = React.useState();
   const [videos, setVideos] = React.useState([]);
   const [relatedVideos, setRelatedVideos] = React.useState([]);
   const [selectedVideo, setSelectedVideo] = React.useState(null);
-  const handleSubmit = async (termFromHeaderSearch) => {
-    const response = await youtube.get('search', {
-      params: {
-        q: termFromHeaderSearch,
-      },
-    });
-    setVideos(response.data.items);
-  };
-  const handleVideoSelect = (video) => {
-    setSelectedVideo(video);
-  };
 
+  const [state, dispatch] = React.useReducer(reducer, { darkMode: true });
+
+  const theme = createTheme({
+    palette: {
+      type: state.darkMode ? 'dark' : 'light',
+    },
+  });
   React.useEffect(() => {
     async function getRelatedVideos() {
       const response = await youtube.get('search', {
@@ -31,25 +43,55 @@ function App() {
       });
       setRelatedVideos(response.data.items);
     }
+
     if (selectedVideo) {
       getRelatedVideos();
     }
-  }, [selectedVideo, setRelatedVideos]);
+
+    async function getVideos() {
+      const response = await youtube.get('search', {
+        params: {
+          q: termToSearch,
+        },
+      });
+      setVideos(response.data.items);
+    }
+
+    if (termToSearch) {
+      getVideos();
+    }
+  }, [termToSearch, selectedVideo, setRelatedVideos]);
 
   return (
-    <>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Header handleFormSubmit={handleSubmit} />
+    <DataContext.Provider
+      value={{
+        termToSearch,
+        setTermToSearch,
+        videos,
+        setVideos,
+        selectedVideo,
+        setSelectedVideo,
+        relatedVideos,
+        setRelatedVideos,
+        state,
+        dispatch,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Header />
+          </Grid>
+          <Grid item xs={12} sm={9}>
+            <VideoDetail />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Content />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={9}>
-          <VideoDetail video={selectedVideo} relatedVideos={relatedVideos} />
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <Content videos={videos} handleVideoSelect={handleVideoSelect} />
-        </Grid>
-      </Grid>
-    </>
+      </ThemeProvider>
+    </DataContext.Provider>
   );
 }
 

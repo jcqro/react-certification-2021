@@ -3,7 +3,6 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -12,6 +11,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import DataContext from '../../context/DataContext';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -77,18 +78,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ handleFormSubmit }) {
+export default function Header() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const [videoname, setVideoname] = React.useState('');
+  const { setTermToSearch, state, dispatch } = React.useContext(DataContext);
+
   const handleOnChange = (event) => {
     setVideoname(event.target.value);
   };
   function handleSubmit(event) {
     event.preventDefault();
-    handleFormSubmit(videoname);
+    setTermToSearch(videoname);
   }
 
   const isMenuOpen = Boolean(anchorEl);
@@ -181,13 +184,18 @@ export default function Header({ handleFormSubmit }) {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Switch
-                name="checkedA"
-                inputProps={{ 'aria-label': 'secondary checkbox' }}
-              />
-            </IconButton>
-            <Typography>Dark Mode</Typography>
+            <FormControlLabel
+              control={
+                <Switch
+                  name="checkedA"
+                  inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  checked={state.darkMode}
+                  onChange={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
+                />
+              }
+              label="Dark Mode"
+            />
+
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -209,12 +217,17 @@ export default function Header({ handleFormSubmit }) {
             >
               <MoreIcon />
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Switch
-                name="checkedA"
-                inputProps={{ 'aria-label': 'secondary checkbox' }}
-              />
-            </IconButton>
+            <FormControlLabel
+              control={
+                <Switch
+                  name="checkedA"
+                  inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  checked={state.darkMode}
+                  onChange={() => dispatch({ type: 'TOGGLE_DARK_MODE' })}
+                />
+              }
+              label="Dark Mode"
+            />
           </div>
         </Toolbar>
       </AppBar>

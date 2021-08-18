@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import VideoItem from '../VideoItem';
+import DataContext from '../../context/DataContext';
 
-export default function Content(props) {
-  const { videos, handleVideoSelect } = props;
+export default function Content() {
+  const { videos } = useContext(DataContext);
   return (
     <div>
       {videos.map((video) => (
-        <VideoItem
-          key={video.id.videoId}
-          video={video}
-          handleVideoSelect={handleVideoSelect}
-        />
+        <VideoItem key={video.id.videoId} video={video} />
       ))}
     </div>
   );

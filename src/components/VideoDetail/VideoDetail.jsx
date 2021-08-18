@@ -1,16 +1,19 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
+import DataContext from '../../context/DataContext';
 
-export default function VideoDetail(props) {
-  const { video, relatedVideos } = props;
-  if (!video) {
+export default function VideoDetail() {
+  const { selectedVideo, setSelectedVideo, relatedVideos } =
+    React.useContext(DataContext);
+  if (!selectedVideo) {
     return (
       <div>
-        <h3>Enter search keyword in the toolbar and hit enter...</h3>
+        <h3>Type search keyword in the toolbar and hit enter...</h3>
       </div>
     );
   }
 
-  const videoSrc = `https://www.youtube.com/embed/${video.id.videoId}`;
+  const videoSrc = `https://www.youtube.com/embed/${selectedVideo.id.videoId}`;
 
   return (
     <div>
@@ -24,14 +27,21 @@ export default function VideoDetail(props) {
         />
       </div>
       <div>
-        <h4>{video.snippet.title}</h4>
-        <p>{video.snippet.description}</p>
+        <h4>{selectedVideo.snippet.title}</h4>
+        <p>{selectedVideo.snippet.description}</p>
       </div>
       <div>
         <h4>Related Videos</h4>
         {relatedVideos.length > 0 ? (
           relatedVideos.map((relatedVideo) => (
-            <div key={relatedVideo.id.videoId}>
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            <div
+              key={relatedVideo.id.videoId}
+              onClick={() => setSelectedVideo(relatedVideo)}
+              style={{ cursor: 'pointer' }}
+            >
               <img
                 src={relatedVideo.snippet?.thumbnails.default.url}
                 alt={relatedVideo.snippet?.description}
