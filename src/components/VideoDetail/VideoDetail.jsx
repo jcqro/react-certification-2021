@@ -1,10 +1,19 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
+import Button from '@material-ui/core/Button';
 import DataContext from '../../context/DataContext';
 
 export default function VideoDetail() {
-  const { selectedVideo, setSelectedVideo, relatedVideos } =
-    React.useContext(DataContext);
+  const {
+    selectedVideo,
+    setSelectedVideo,
+    relatedVideos,
+    favoriteVideos,
+    setFavoriteVideos,
+  } = React.useContext(DataContext);
+  /* const [showButtons, setShowButtons] = React.useState(false); */
+
   if (!selectedVideo) {
     return (
       <div>
@@ -14,6 +23,22 @@ export default function VideoDetail() {
   }
 
   const videoSrc = `https://www.youtube.com/embed/${selectedVideo.id.videoId}`;
+
+  /*  const handleOnMouseOver = () => {
+    setShowButtons(!showButtons);
+  }; */
+
+  /* function addToFavorites(favoriteVideo) {
+    setFavoriteVideos(favoriteVideos.concat(favoriteVideo));
+    // const favorites = favoriteVideos.concat(favoriteVideo);
+    localStorage.setItem('favorites', JSON.stringify(favoriteVideos));
+  } */
+  /* function removeFromFavorites(favoriteVideo) {
+    const index = favoriteVideos.indexOf(favoriteVideo);
+    if (index > -1) {
+      setFavoriteVideos(favoriteVideos.splice(index, 1));
+    }
+  } */
 
   return (
     <div>
@@ -40,6 +65,7 @@ export default function VideoDetail() {
             <div
               key={relatedVideo.id.videoId}
               onClick={() => setSelectedVideo(relatedVideo)}
+              /* onMouseOver={handleOnMouseOver} */
               style={{ cursor: 'pointer' }}
             >
               <img
@@ -48,6 +74,12 @@ export default function VideoDetail() {
               />
 
               <div>{relatedVideo.snippet?.title}</div>
+
+              <Button
+                onClick={() => setFavoriteVideos(favoriteVideos.concat(relatedVideo))}
+              >
+                Add
+              </Button>
             </div>
           ))
         ) : (
