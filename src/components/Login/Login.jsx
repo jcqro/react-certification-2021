@@ -79,6 +79,7 @@ export default function SignIn({ setUserData, onLogin }) {
       if (response.id) {
         setUserData(response);
         onLogin(true);
+        localStorage.setItem('user', JSON.stringify(response));
       }
     } catch (err) {
       setError(err.message);

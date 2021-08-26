@@ -2,12 +2,13 @@ import React from 'react';
 import { makeStyles, createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Header2 from '../Header2';
+import Header from '../Header';
 import Content from '../Content';
 import Favorites from '../Favorites';
 import youtube from '../../api/youtube';
 import DataContext from '../../context/DataContext';
 import Login from '../Login';
+import PrivateRoute from '../PrivateRoute';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -79,14 +80,6 @@ function reducer(state, action) {
         ...state,
         darkMode: !state.darkMode,
       };
-    case 'ADD_FAVORITE': {
-      const favorites = state.favoriteVideos.concat(action.payload);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-      return {
-        ...state,
-        favorites,
-      };
-    }
     default:
       return state;
   }
@@ -171,12 +164,12 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <BrowserRouter>
-            <Header2 />
+            <Header />
             <main className={classes.content}>
               <div className={classes.toolbar} />
               <Switch>
                 <Route exact path="/" component={Content} />
-                <Route path="/favorites" component={Favorites} />
+                <PrivateRoute path="/favorites" component={Favorites} />
               </Switch>
             </main>
           </BrowserRouter>

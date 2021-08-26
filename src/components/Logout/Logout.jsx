@@ -7,7 +7,7 @@ import DataContext from '../../context/DataContext';
 export default function Logout() {
   const { setHasLoggedOut } = useContext(DataContext);
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem('user');
     setHasLoggedOut(true);
   };
 
