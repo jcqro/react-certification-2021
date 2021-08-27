@@ -92,6 +92,7 @@ function App() {
   const [relatedVideos, setRelatedVideos] = React.useState([]);
   const [favoriteVideos, setFavoriteVideos] = React.useState([]);
   const [selectedVideo, setSelectedVideo] = React.useState(null);
+  const [selectedFavorite, setSelectedFavorite] = React.useState(null);
   const [userData, setUserData] = React.useState(null);
   const [hasLoggedOut, setHasLoggedOut] = React.useState(false);
 
@@ -157,6 +158,8 @@ function App() {
           userData,
           setUserData,
           setHasLoggedOut,
+          selectedFavorite,
+          setSelectedFavorite,
           state,
           dispatch,
         }}

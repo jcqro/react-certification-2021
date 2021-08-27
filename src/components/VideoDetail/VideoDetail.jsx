@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import DataContext from '../../context/DataContext';
 
 export default function VideoDetail() {
@@ -12,7 +13,11 @@ export default function VideoDetail() {
     favoriteVideos,
     setFavoriteVideos,
   } = React.useContext(DataContext);
-  /* const [showButtons, setShowButtons] = React.useState(false); */
+
+  function handleAdd(favorite) {
+    const newFavorites = favoriteVideos.concat(favorite);
+    setFavoriteVideos(newFavorites);
+  }
 
   if (!selectedVideo) {
     return (
@@ -23,22 +28,6 @@ export default function VideoDetail() {
   }
 
   const videoSrc = `https://www.youtube.com/embed/${selectedVideo.id.videoId}`;
-
-  /*  const handleOnMouseOver = () => {
-    setShowButtons(!showButtons);
-  }; */
-
-  /* function addToFavorites(favoriteVideo) {
-    setFavoriteVideos(favoriteVideos.concat(favoriteVideo));
-    // const favorites = favoriteVideos.concat(favoriteVideo);
-    localStorage.setItem('favorites', JSON.stringify(favoriteVideos));
-  } */
-  /* function removeFromFavorites(favoriteVideo) {
-    const index = favoriteVideos.indexOf(favoriteVideo);
-    if (index > -1) {
-      setFavoriteVideos(favoriteVideos.splice(index, 1));
-    }
-  } */
 
   return (
     <div>
@@ -62,23 +51,22 @@ export default function VideoDetail() {
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-            <div
-              key={relatedVideo.id.videoId}
-              onClick={() => setSelectedVideo(relatedVideo)}
-              /* onMouseOver={handleOnMouseOver} */
-              style={{ cursor: 'pointer' }}
-            >
-              <img
-                src={relatedVideo.snippet?.thumbnails.default.url}
-                alt={relatedVideo.snippet?.description}
-              />
-
-              <div>{relatedVideo.snippet?.title}</div>
-
-              <Button
-                onClick={() => setFavoriteVideos(favoriteVideos.concat(relatedVideo))}
+            <div>
+              <div
+                key={relatedVideo.id.videoId}
+                onClick={() => setSelectedVideo(relatedVideo)}
+                style={{ cursor: 'pointer' }}
+                aria-hidden="true"
               >
-                Add
+                <img
+                  src={relatedVideo.snippet?.thumbnails.default.url}
+                  alt={relatedVideo.snippet?.description}
+                />
+
+                <div>{relatedVideo.snippet?.title}</div>
+              </div>
+              <Button onClick={() => handleAdd(relatedVideo)}>
+                Add to <FavoriteIcon fontSize="small" />
               </Button>
             </div>
           ))
