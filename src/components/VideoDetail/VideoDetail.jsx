@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -48,9 +46,6 @@ export default function VideoDetail() {
         <h4>Related Videos</h4>
         {relatedVideos.length > 0 ? (
           relatedVideos.map((relatedVideo) => (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div>
               <div
                 key={relatedVideo.id.videoId}

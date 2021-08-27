@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
@@ -28,14 +27,7 @@ export default function Favorites() {
     <Wrapper>
       {favorites?.length > 0 ? (
         favorites.map((favorite) => (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-          <div
-            key={favorite.id.videoId}
-            /* onClick={() => setSelectedVideo(favorite)} */
-            /* style={{ cursor: 'pointer' }} */
-          >
+          <div key={favorite.id.videoId}>
             <img
               src={favorite.snippet?.thumbnails.default.url}
               alt={favorite.snippet?.description}
@@ -48,9 +40,7 @@ export default function Favorites() {
           </div>
         ))
       ) : (
-        <>
-          <StyledH3>You have no favorite videos</StyledH3>
-        </>
+        <StyledH3>You have no favorite videos</StyledH3>
       )}
     </Wrapper>
   );
