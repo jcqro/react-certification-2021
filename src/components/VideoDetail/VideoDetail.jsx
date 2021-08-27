@@ -53,12 +53,9 @@ export default function VideoDetail() {
                 style={{ cursor: 'pointer' }}
                 aria-hidden="true"
               >
-                <img
-                  src={relatedVideo.snippet?.thumbnails.default.url}
-                  alt={relatedVideo.snippet?.description}
-                />
-
+                <img src={relatedVideo.snippet?.thumbnails.default.url} alt="" />
                 <div>{relatedVideo.snippet?.title}</div>
+                <div>{relatedVideo.snippet?.description}</div>
               </div>
               <Button onClick={() => handleAdd(relatedVideo)}>
                 Add to <FavoriteIcon fontSize="small" />

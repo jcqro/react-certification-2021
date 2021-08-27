@@ -28,12 +28,9 @@ export default function Favorites() {
       {favorites?.length > 0 ? (
         favorites.map((favorite) => (
           <div key={favorite.id.videoId}>
-            <img
-              src={favorite.snippet?.thumbnails.default.url}
-              alt={favorite.snippet?.description}
-            />
-
+            <img src={favorite.snippet?.thumbnails.default.url} alt="" />
             <div>{favorite.snippet?.title}</div>
+            <div>{favorite.snippet?.description}</div>
             <Button onClick={() => removeFromFavorites(favorite.id.videoId)}>
               Remove
             </Button>
