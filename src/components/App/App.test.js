@@ -1,13 +1,29 @@
-import youtube from '../../api/youtube';
+import axios from 'axios';
 
-describe('You Tube API', () => {
-  it('should load disclosure youtube videos', async () => {
-    const termToSearch = 'disclosure';
-    const response = await youtube.get('search', {
-      params: {
-        q: termToSearch,
+jest.mock('axios');
+
+describe('Test API', () => {
+  it('Test Successfull data from an API', async () => {
+    const data = {
+      data: {
+        videos: [
+          {
+            videoID: '1',
+            title: 'a',
+          },
+          {
+            videoID: '2',
+            title: 'b',
+          },
+        ],
       },
-    });
-    expect(response).toBeDefined();
+    };
+    axios.get.mockImplementationOnce(() => Promise.resolve(data));
+  });
+
+  it('Test erroneously data from an API', async () => {
+    const errorMessage = 'Network Error';
+
+    axios.get.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
   });
 });

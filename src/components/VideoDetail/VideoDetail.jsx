@@ -25,7 +25,7 @@ export default function VideoDetail() {
     );
   }
 
-  const videoSrc = `https://www.youtube.com/embed/${selectedVideo.id.videoId}`;
+  const videoSrc = `https://www.youtube.com/embed/${selectedVideo.id?.videoId}`;
 
   return (
     <div>
@@ -39,8 +39,8 @@ export default function VideoDetail() {
         />
       </div>
       <div>
-        <h4>{selectedVideo.snippet.title}</h4>
-        <p>{selectedVideo.snippet.description}</p>
+        <h4>{selectedVideo.snippet?.title}</h4>
+        <p>{selectedVideo.snippet?.description}</p>
       </div>
       <div>
         <h4>Related Videos</h4>
