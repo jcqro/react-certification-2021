@@ -37,7 +37,7 @@ export default function Favorites() {
           </div>
         ))
       ) : (
-        <StyledH3>You have no favorite videos</StyledH3>
+        <StyledH3 id="StyledH3">You have no favorite videos</StyledH3>
       )}
     </Wrapper>
   );
